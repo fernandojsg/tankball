@@ -1,0 +1,56 @@
+<html>
+<head>
+	<title>TankBall</title>
+	<script type="text/javascript" src="js/external/stats.min.js"></script>
+	<script type="text/javascript" src="js/external/vector2.js"></script>
+	<script type="text/javascript" src="js/external/clock.js"></script>
+    <script type="text/javascript" src="js/ktb.js"></script>
+    <script type="text/javascript" src="js/tank.js"></script>
+    <script type="text/javascript" src="js/ball.js"></script>
+    <script type="text/javascript" src="js/renderer.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+</head>    
+<style>
+	body
+	{
+		margin:0px;
+		padding:0px;
+	}
+</style>	
+<script>
+var game;
+var stats;
+
+function init() {
+	stats = new Stats();
+	stats.setMode(0); // 0: fps, 1: ms
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.left = '0px';
+	stats.domElement.style.top = '0px';
+	document.body.appendChild( stats.domElement );
+
+	var gameCanvas=document.getElementById("gamecanvas");
+	scale=0.5;
+
+	gameCanvas.height = window.innerHeight;	
+  	gameCanvas.width  = window.innerWidth/3;
+  	game=new KTB.Game(gameCanvas);
+
+	var ismobile=navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i);
+	document.body.addEventListener(ismobile?"touchstart":"mousedown", function(evt){game.touchDown()}, false);
+	
+	(function animloop(){
+	  requestAnimFrame(animloop);
+		stats.begin();
+		game.update();
+		stats.end();
+	})();
+}
+
+</script>
+<body onload="init();">
+	<div align="center">
+		<canvas id="gamecanvas" width="400" height="600" style="background-color:#999"></canvas>
+	</div>
+</body>
+</html>
