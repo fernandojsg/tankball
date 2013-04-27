@@ -62,6 +62,10 @@ KTB.Renderer.prototype = {
 		var y=ball.position.y;
 		this.ctx.lineWidth=w*0.4;
 
+		this.drawText(ball.number.toString(),x-ball.radius*0.32,y-ball.radius*0.55,ball.radius*0.3);
+
+		return;
+
 		if (ball.number==1)
 		{
 			this.ctx.beginPath();
@@ -197,36 +201,44 @@ KTB.Renderer.prototype = {
 	},
 
 
-	drawline: function(p,q,A,B)
+	drawline: function(p,q,x,y,size)
 	{
 		this.ctx.beginPath();
-		this.ctx.moveTo(A+(p%3)*10,B+Math.floor(p/3)*10);
-		this.ctx.lineTo(A+(q%3)*10,B+Math.floor(q/3)*10);
+		this.ctx.moveTo(x+(p%3)*size,y+Math.floor(p/3)*size);
+		this.ctx.lineTo(x+(q%3)*size,y+Math.floor(q/3)*size);
 		this.ctx.stroke();
 	},
 
-	drawText: function(text,cy)
+	drawText: function(text,cx,cy,size)
 	{
 		this.ctx.save();
-        this.ctx.lineCap = 'round';
-
-		var cx=(this.width-(text.length-1)*30)/2; // coord. texto
-
-//		this.ctx.fillStyle='white';
-//		this.ctx.fillRect(0,0,600,220);
+		
+        this.ctx.lineCap = 'square';
 		this.ctx.strokeStyle='#000';
-		this.ctx.lineWidth=4;
-		f='GIOMJL0AMOIG0IGMO0COMGI0OMGILJ0CBN0OMGIUS0AMGIO0GHN0GHTS0AMIKO0BN0MGHNHIO0MGIO0GIOMG0SGIOM0UIGMO0MGI0IGJLOM0BNO0GMOI0GJNLI0GMNHNOI0GOKMI0GMOIUS0GIMO'.split(0);
+		this.ctx.lineWidth=size*0.45;
+		
+		// first numerics
+		var alpha='GIOMJL0AMOIG0IGMO0COMGI0OMGILJ0CBN0OMGIUS0AMGIO0GHN0GHTS0AMIKO0BN0MGHNHIO0MGIO0GIOMG0SGIOM0UIGMO0MGI0IGJLOM0BNO0GMOI0GJNLI0GMNHNOI0GOKMI0GMOIUS0GIMO';
+		var numeric='MOCAM0NBA0OMGICA0MOIGICA0OCIGA0MOIGAC0CAMOIG0OCA0MOCAMGI0OCAGI';
+		f=(alpha+"0"+numeric).split(0);
+
 		text=text.toUpperCase();
 		for (var i=0;i<text.length;i++)
 		{
-			var P=f[text.charCodeAt(i)-65];
+			code=text.charCodeAt(i);
+			if (code<58)
+				code=code-48+alpha.split(0).length;
+			else
+				code-=65;
+
+			var P=f[code];
+			
 			if (P) {
 				for (j=1;j<P.length;j++) 
-					this.drawline(P.charCodeAt(j-1)-65,P.charCodeAt(j)-65,cx,cy);
-				if (text[i]==='I'||text[i]==='J') this.drawline(3,4,cx,cy);
-				if (text[i]==='F'||text[i]==='T') this.drawline(3,5,cx,cy);
-				cx+=30;
+					this.drawline(P.charCodeAt(j-1)-65,P.charCodeAt(j)-65,cx,cy,size);
+				if (text[i]==='I'||text[i]==='J') this.drawline(3,4,cx,cy,size);
+				if (text[i]==='F'||text[i]==='T') this.drawline(3,5,cx,cy,size);
+				cx+=3*size;
 			}
 		}
 		this.ctx.restore();
@@ -240,9 +252,12 @@ KTB.Renderer.prototype = {
 		{
 			this.ctx.fillStyle="#f33";
 			this.drawRect(0,0,this.width,this.height);
-			this.drawText("Game Over",this.height/3);
+			var text="gameover";
+			this.drawText(text,(this.width-(text.length-1)*30)/2,this.height/3,10);
 		}
 
+		this.drawText(game.score.toString(),this.width/8,this.height-game.tank.lineDistance/1.5,10);
+		
 		//this.position.y=window.innerHeight-game.tank.width*2.2;//600;
 
 		this.ctx.fillStyle="#333";
@@ -264,7 +279,6 @@ KTB.Renderer.prototype = {
 		var nx=game.tank.position.x;
 		var ny=window.innerHeight-game.tank.width*2.2;
 		this.ctx.save();
-		//this.drawRect(0,0,300,300);
 		
 		this.ctx.fillStyle="#fff";
 		this.drawCircle(nx,ny,game.tank.paintRadius*0.9);

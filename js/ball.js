@@ -1,6 +1,7 @@
 KTB.BallStatus={"MOVING":0,"GROWING":1,"STOPPED":2,"EXPLODING":3,"DEAD":4};
 KTB.BallType={"NORMAL":0,"PLUS":1,"STAR":2,"BOMB":3,"STICKY":4,"DIVIDE":5,"MINUS":6};
-MAX_BALL_NUMBER=3;
+
+MAX_BALL_NUMBER=9;
 BALL_INITIAL_RADIUS=20;
 
 KTB.Ball=function(id,type,angle,speed,cannonPos)
@@ -19,7 +20,7 @@ KTB.Ball=function(id,type,angle,speed,cannonPos)
 	angle=toRadians(angle);
 	this.velocity=new Vector2(Math.cos(angle)*speed,-Math.sin(angle)*speed);
 	this.number=3;
-
+	
 	this.type=type;
 	this.radius=BALL_INITIAL_RADIUS;
 	this.hit=false;
@@ -132,9 +133,10 @@ KTB.Ball.prototype={
 				{
 					this.alpha=0;
 					this.status=KTB.BallStatus.DEAD;
+					if (!game.over)
+						game.score++;
 					//game.balls.splice(this.id,1);
 					//!!!!!!!!! game.removeBallFromList(this.id);
-					//this.appendBallToList
 				}
 				//KTB.BallStatus
 			}
@@ -224,6 +226,10 @@ KTB.Ball.prototype={
 						refresh=true;
 					}
 				}
+				break;
+			case KTB.BallType.BOMB:
+				ball.number=0;
+				updatePosition=0;
 				break;
 			case KTB.BallType.STICKY:
 				this.stopBall();
