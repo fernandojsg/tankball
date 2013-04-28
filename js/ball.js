@@ -20,7 +20,8 @@ KTB.Ball=function(id,type,angle,speed,cannonPos)
 
 	angle=toRadians(angle);
 	this.velocity=new Vector2(Math.cos(angle)*speed,-Math.sin(angle)*speed);
-	this.number=3;
+	this.number=1;
+	type=5;
 	this.type=type;
 	this.radius=BALL_INITIAL_RADIUS;
 	this.hit=false;
@@ -196,8 +197,7 @@ KTB.Ball.prototype={
 			case KTB.BallType.DIVIDE:
 				if (ball.number>0)
 				{
-					ball.number--;
-					if (ball.radius>BALL_INITIAL_RADIUS)
+					if (--ball.number>0 && ball.radius>BALL_INITIAL_RADIUS)
 					{
 						var prop0=Math.random();
 						if (prop0<0.2)
