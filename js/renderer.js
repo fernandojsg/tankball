@@ -11,7 +11,7 @@ KTB.Renderer.prototype = {
 
 	drawTank: function()
 	{
-		this.ctx.fillStyle="#333";
+		this.ctx.fillStyle=KTB.Colors.tank;
 		this.ctx.save();
 		
 		this.game.tank.position.y=this.game.canvas.height-this.game.tank.height/2;
@@ -20,8 +20,6 @@ KTB.Renderer.prototype = {
 		var cx=this.game.tank.position.x;
 		var cy=this.game.tank.position.y+this.game.tank.height/2-r*1.5;
 
-		//this.game.tank.angle=30;
-		
 		this.ctx.translate(cx,cy);
 		this.ctx.rotate(toRadians(90+this.game.tank.angle));
 		this.ctx.translate(-cx,-cy);
@@ -58,6 +56,7 @@ KTB.Renderer.prototype = {
 	{
 		var w=ball.radius*0.4;
 		this.ctx.fillStyle="#f00";
+		this.ctx.strokeStyle=KTB.Colors.ball_number;
 		var x=ball.position.x;
 		var y=ball.position.y;
 		this.ctx.lineWidth=w*0.4;
@@ -116,41 +115,38 @@ KTB.Renderer.prototype = {
 
 	drawBallType: function(type,x,y,radius)
 	{
+		this.ctx.fillStyle=KTB.Colors.ball_normal;
 		this.drawCircle(x, y, radius); 
+		this.ctx.fillStyle=KTB.Colors.item;
+
 		switch (type)
 		{
 			case KTB.BallType.NORMAL:
 				break;
 
 			case KTB.BallType.PLUS:
-				this.ctx.fillStyle="#f00";
 				var w=radius*0.2;
 				var h=radius*0.6;
 				this.drawRect(x-w,y-h,2*w,2*h);
 				this.drawRect(x-h,y-w,2*h,2*w);
 				break;					
 			case KTB.BallType.STAR:
-				this.ctx.fillStyle="#f00";
 				this.drawStar(x,y,radius*0.8,5,0.5);
 				break;
 			case KTB.BallType.BOMB:
-				this.ctx.fillStyle="#f00";
 				this.drawStar(x,y,radius*0.8,10,0.3);
 				break;
 			case KTB.BallType.DIVIDE:
-				this.ctx.fillStyle="#f00";
 				this.drawCircle(x-radius/4, y, radius/4); 
 				this.drawCircle(x+radius/4, y, radius/4); 
 				break;
 			case KTB.BallType.STICKY:
-				this.ctx.fillStyle="#f0f";
 				var w=radius*0.4;
 				this.drawRect(x-w,y-w,2*w,2*w);
 				break;
 			case KTB.BallType.MINUS:
 				var w=radius*0.2;
 				var h=radius*0.6;
-				this.ctx.fillStyle="#f00";
 				this.drawRect(x-h,y-w,2*h,2*w);
 				break;
 		}
@@ -159,6 +155,7 @@ KTB.Renderer.prototype = {
 	drawBall: function(ball)
 	{
 		this.ctx.fillStyle=ball.color;
+		
 		//this.drawCircle(ball.position.x, ball.position.y, ball.radius);
 
 		this.ctx.globalAlpha=ball.alpha;
@@ -214,8 +211,7 @@ KTB.Renderer.prototype = {
 		this.ctx.save();
 		
         this.ctx.lineCap = 'square';
-		this.ctx.strokeStyle='#000';
-		this.ctx.lineWidth=size*0.45;
+     	this.ctx.lineWidth=size*0.45;
 		
 		// first numerics
 		var alpha='GIOMJL0AMOIG0IGMO0COMGI0OMGILJ0CBN0OMGIUS0AMGIO0GHN0GHTS0AMIKO0BN0MGHNHIO0MGIO0GIOMG0SGIOM0UIGMO0MGI0IGJLOM0BNO0GMOI0GJNLI0GMNHNOI0GOKMI0GMOIUS0GIMO';
@@ -247,7 +243,15 @@ KTB.Renderer.prototype = {
 	render: function()
 	{
 		this.ctx.clearRect(0, 0, this.width,this.height);
-
+		
+		this.ctx.save();
+		this.ctx.fillStyle=KTB.Colors.gameboard;
+		this.drawRect(0, 0, this.width,this.height);
+		this.ctx.strokeStyle=KTB.Colors.gameboard_border;
+		this.ctx.lineWidth=8;
+		this.ctx.stroke();
+		this.ctx.restore();
+		
 		if (game.over)
 		{
 			this.ctx.fillStyle="#f33";
@@ -256,17 +260,18 @@ KTB.Renderer.prototype = {
 			this.drawText(text,(this.width-(text.length-1)*30)/2,this.height/3,10);
 		}
 
+		this.ctx.strokeStyle=KTB.Colors.score;
 		this.drawText(game.score.toString(),this.width/8,this.height-game.tank.lineDistance/1.5,10);
 		
 		//this.position.y=window.innerHeight-game.tank.width*2.2;//600;
 
-		this.ctx.fillStyle="#333";
 		this.ctx.save();
 		for (var i=0;i<this.game.balls.length;i++)
 			this.drawBall(this.game.balls[i]);
 		this.ctx.restore();
 
 		//this.ctx.setLineDash([9]);
+		this.ctx.strokeStyle=KTB.Colors.tank_line;
 		this.ctx.beginPath();
 			this.ctx.moveTo(0,this.height-this.game.tank.lineDistance);
 			this.ctx.lineTo(this.game.canvas.width,this.height-this.game.tank.lineDistance);
@@ -277,12 +282,12 @@ KTB.Renderer.prototype = {
 
 		// Next Circle
 		var nx=game.tank.position.x;
-		var ny=window.innerHeight-game.tank.width*2.2;
+		var ny=game.canvas.height-game.tank.width*2.2;
 		this.ctx.save();
 		
-		this.ctx.fillStyle="#fff";
-		this.drawCircle(nx,ny,game.tank.paintRadius*0.9);
-		this.ctx.fillStyle="#333";
+		//this.ctx.fillStyle=KTB.Colors.preview_border;
+		//this.drawCircle(nx,ny,game.tank.paintRadius*0.9);
+		this.ctx.fillStyle=KTB.Colors.ball_normal;
 		this.drawCircle(nx,ny,game.tank.paintRadius*0.8);
 		this.drawBallType(game.nextBallType,nx,ny,game.tank.paintRadius*0.8);
 	}

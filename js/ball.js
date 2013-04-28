@@ -9,18 +9,18 @@ KTB.Ball=function(id,type,angle,speed,cannonPos)
 	this.id=id;
 	this.status=KTB.BallStatus.MOVING;
 	this.position=cannonPos.clone();
-	this.position.y=window.innerHeight-game.tank.width*2.2;//600;
+	this.position.y=game.canvas.height-game.tank.width*2.2;//600;
 
 	this.lastPosition=this.position;
 		
-	this.color='#333';
+	this.color=KTB.Colors.ball_normal;
+
 	this.friction=0.97;
 	this.alpha=1.0;
 
 	angle=toRadians(angle);
 	this.velocity=new Vector2(Math.cos(angle)*speed,-Math.sin(angle)*speed);
 	this.number=3;
-	
 	this.type=type;
 	this.radius=BALL_INITIAL_RADIUS;
 	this.hit=false;
@@ -41,7 +41,7 @@ KTB.Ball.prototype={
 	stopBall: function()
 	{
 		this.status=KTB.BallStatus.STOPPED;
-		this.color='#ff9';
+		this.color=	KTB.Colors.ball_stopped;
 	},
 
 	tick: function()
@@ -100,7 +100,7 @@ KTB.Ball.prototype={
 				if (this.velocity.length()<BALL_SPEED_STOPPED)
 				{
 					this.status=KTB.BallStatus.GROWING;
-					this.color='#9f9';
+					this.color=KTB.Colors.ball_growing;
 				}
 			} break;
 			
@@ -120,7 +120,7 @@ KTB.Ball.prototype={
 					//@todo clamp inc
 					this.status=KTB.BallStatus.STOPPED;
 					game.throwingBall=false;
-					this.color='#ff9';
+					this.color=	KTB.Colors.ball_stopped;
 				}
 	//				status=BALL_STATUS_STOPPED;
 			} break;

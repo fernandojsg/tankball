@@ -1,6 +1,9 @@
-KTB.Game=function(canvas)
+KTB.Game=function()
 {
-	this.canvas=canvas;
+	this.canvas=document.getElementById("gamecanvas");
+	this.canvas.height = 600;	
+  	this.canvas.width  = 400;
+  	
 	this.renderer=new KTB.Renderer(this);
 	
 	this.tank=new KTB.Tank(this.canvas.width,this.canvas.height);
@@ -97,7 +100,7 @@ KTB.Game.prototype = {
 		this.throwingBall=true;
 
 		var ball=new KTB.Ball(this.balls.length,this.nextBallType,180-this.tank.angle,20,this.tank.position);
-		this.nextBallType=Math.random()>0.5?parseInt(Math.random()*6):0;
+		this.nextBallType=Math.random()>0.5?parseInt(Math.random()*7):0;
 		
 		//this.balls.push(ball);
 		this.appendBallToList(this.balls.length,ball);
