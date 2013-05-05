@@ -262,9 +262,11 @@ KTB.Renderer.prototype = {
 
 		this.ctx.strokeStyle=KTB.Colors.score;
 		this.drawText(game.score.toString(),this.width/8,this.height-game.tank.lineDistance/1.5,10);
-		
-		//this.position.y=window.innerHeight-game.tank.width*2.2;//600;
 
+		this.ctx.strokeStyle=KTB.Colors.hiscore;
+		this.drawText("hiscore",this.width/1.4,this.height-game.tank.lineDistance/1.5,4);
+		this.drawText(game.hiscore.toString(),this.width/1.4,this.height-game.tank.lineDistance/2.4,4);
+		
 		this.ctx.save();
 		for (var i=0;i<this.game.balls.length;i++)
 			this.drawBall(this.game.balls[i]);

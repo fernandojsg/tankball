@@ -15,10 +15,24 @@ KTB.Game.prototype = {
 	reset: function ()
 	{
 		this.score=0;
+		this.hiscore=localStorage.getItem("hiscore");
+		if (!this.hiscore)
+			this.hiscore=0;
+
 		this.over=false;
 		this.balls=[];
 		this.throwingBall=false;
 		this.nextBallType=KTB.BallType.NORMAL;
+	},
+
+	incScore: function()
+	{
+		this.score++;
+		if (this.score>this.hiscore)
+		{
+			localStorage.setItem("hiscore",this.score);
+			this.hiscore=this.score;
+		}
 	},
 
 	update: function()

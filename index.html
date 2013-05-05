@@ -35,17 +35,19 @@
 </style>	
 <script>
 var game;
-//var stats;
+var stats;
+var useStats=false;
 
 function init() {
-	/*
-	stats = new Stats();
-	stats.setMode(0); // 0: fps, 1: ms
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.left = '0px';
-	stats.domElement.style.top = '0px';
-	document.body.appendChild( stats.domElement );
-*/
+	if (useStats)
+	{
+		stats = new Stats();
+		stats.setMode(0); // 0: fps, 1: ms
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.left = '0px';
+		stats.domElement.style.top = '0px';
+		document.body.appendChild( stats.domElement );
+	}
 	game=new KTB.Game();
 
 	var ismobile=navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i);
@@ -53,9 +55,9 @@ function init() {
 	
 	(function animloop(){
 	  requestAnimFrame(animloop);
-//		stats.begin();
+		if (useStats) stats.begin();
 		game.update();
-//		stats.end();
+		if (useStats) stats.end();
 	})();
 }
 

@@ -6,6 +6,7 @@ KTB.Colors={
 	"ball_growing":"#f2e85c",
 	"ball_stopped":"#fe8315",
 	"score":"#f2e85c",
+	"hiscore":"#fe8315",
 	"ball_number":"#000",
 	"tank_line":"#000",
 

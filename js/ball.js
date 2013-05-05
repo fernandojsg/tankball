@@ -20,8 +20,7 @@ KTB.Ball=function(id,type,angle,speed,cannonPos)
 
 	angle=toRadians(angle);
 	this.velocity=new Vector2(Math.cos(angle)*speed,-Math.sin(angle)*speed);
-	this.number=1;
-	type=5;
+	this.number=3;
 	this.type=type;
 	this.radius=BALL_INITIAL_RADIUS;
 	this.hit=false;
@@ -135,7 +134,7 @@ KTB.Ball.prototype={
 					this.alpha=0;
 					this.status=KTB.BallStatus.DEAD;
 					if (!game.over)
-						game.score++;
+						game.incScore();
 					//game.balls.splice(this.id,1);
 					//!!!!!!!!! game.removeBallFromList(this.id);
 				}
