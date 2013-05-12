@@ -1,0 +1,24 @@
+CACHE MANIFEST
+# Version 1.0
+
+index.html
+audio/gameover.ogg
+audio/score.ogg
+audio/tick.ogg
+audio/wallstick.ogg
+images/logo128.png
+images/logo64.png
+images/logo60.png
+images/logo48.png
+images/logo32.png
+images/logo16.png
+js/external/stats.min.js
+js/external/vector2.js
+js/external/clock.js
+js/ktb.js
+js/colors.js
+js/tank.js
+js/ball.js
+js/renderer.js
+js/game.js
+js/fx.js

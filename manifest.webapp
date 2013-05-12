@@ -1,7 +1,7 @@
 {
     "version": "1",
     "name": "TankBall",
-    "launch_path": "index.html",
+    "launch_path": "/",
     "description": "Tankball game. Explode as many balls as you can",
     "icons": {
         "16": "/images/logo16.png",
@@ -15,5 +15,5 @@
         "url": "http://kile.stravaganza.org"
     },
     "installs_allowed_from": ["*"],
-    "default_locale": "en"
+    "appcache_path": "/offline.appcache"
 }
