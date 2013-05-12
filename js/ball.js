@@ -4,7 +4,7 @@ KTB.BallType={"NORMAL":0,"PLUS":1,"STAR":2,"BOMB":3,"STICKY":4,"DIVIDE":5,"MINUS
 MAX_BALL_NUMBER=9;
 BALL_INITIAL_RADIUS=20;
 
-KTB.Ball=function(id,type,angle,speed,cannonPos)
+KTB.Ball=function(id,type,angle,speed,radius,cannonPos)
 {
 	this.id=id;
 	this.status=KTB.BallStatus.MOVING;
@@ -15,14 +15,18 @@ KTB.Ball=function(id,type,angle,speed,cannonPos)
 		
 	this.color=KTB.Colors.ball_normal;
 
-	this.friction=0.97;
+	this.friction=game.friction;
+
+	//this.friction=0.97*game.canvas.height/600;
+
 	this.alpha=1.0;
 
 	angle=toRadians(angle);
 	this.velocity=new Vector2(Math.cos(angle)*speed,-Math.sin(angle)*speed);
 	this.number=3;
 	this.type=type;
-	this.radius=BALL_INITIAL_RADIUS;
+
+	this.radius=radius;
 	this.hit=false;
 }
 
@@ -67,6 +71,7 @@ KTB.Ball.prototype={
 					this.velocity.x=-this.velocity.x*Constants.restitution;
 					this.velocity.y=this.velocity.y*Constants.restitution;
 					this.hit=true;
+					game.fx.playSound("wallstick");
 				}
 
 				if(this.position.x+this.radius > _fieldRight)
@@ -74,6 +79,7 @@ KTB.Ball.prototype={
 					this.position.x=_fieldRight-this.radius;
 					this.velocity.x=-this.velocity.x*Constants.restitution;
 					this.velocity.y=this.velocity.y*Constants.restitution;
+					game.fx.playSound("wallstick");
 	//				this.hit=true;
 				}
 				
@@ -82,6 +88,7 @@ KTB.Ball.prototype={
 					this.position.y=this.radius;
 					this.velocity.x=this.velocity.x*Constants.restitution;
 					this.velocity.y=-this.velocity.y*Constants.restitution;
+					game.fx.playSound("wallstick");
 	//				this.hit=true;
 				}
 
@@ -90,6 +97,7 @@ KTB.Ball.prototype={
 					this.position.y=_fieldBottom-this.radius;
 					this.velocity.x=this.velocity.x*Constants.restitution;
 					this.velocity.y=-this.velocity.y*Constants.restitution;
+					game.fx.playSound("wallstick");
 	//				this.hit=true;
 				}
 				
@@ -133,6 +141,7 @@ KTB.Ball.prototype={
 				{
 					this.alpha=0;
 					this.status=KTB.BallStatus.DEAD;
+					game.fx.vibrate(200);
 					if (!game.over)
 						game.incScore();
 					//game.balls.splice(this.id,1);
@@ -147,6 +156,8 @@ KTB.Ball.prototype={
 	{
 		if (this.position.y+this.radius>game.canvas.height-game.tank.lineDistance)
 		{
+			game.fx.playSound("gameover");
+			game.fx.vibrate(2000);
 			this.color="#f00";
 			return true;
 		}
@@ -242,7 +253,13 @@ KTB.Ball.prototype={
 		}
 
 		if (ball.number<=0)
+		{
+			game.fx.playSound("score");
 			ball.explode();
+		}
+		else
+			game.fx.playSound("tick");
+
 
 		if (updatePosition)
 			this.velocity.set(speed * Math.cos(angle),speed * Math.sin(angle));

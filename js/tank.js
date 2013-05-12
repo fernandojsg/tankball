@@ -7,13 +7,17 @@ KTB.Tank=function(width,height)
 	this.position=new Vector2(width/2,height);
 	this.minAngle=30;
 	this.shottingDif=0;
-
 	this.lineDistance=110;
-
-	this.paintRadius=this.width*1.5;
 }
 
 KTB.Tank.prototype = {
+	
+	onCanvasResized: function(width,height)
+	{
+		this.position=new Vector2(width/2,height);
+		this.paintRadius=this.width*1.5;
+	},
+
 	tick: function(delta)
 	{
 //		this.shottingDif=Math.sin(this.angle/2);

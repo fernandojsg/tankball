@@ -2,12 +2,16 @@ KTB.Renderer=function(game)
 {
 	this.game=game;
 	this.ctx = game.canvas.getContext("2d");
-	this.width = game.canvas.width;
-	this.cx=this.width/2;
-	this.height = game.canvas.height;
 }
 
 KTB.Renderer.prototype = {
+
+	onCanvasResized: function(width,height)
+	{
+		this.width = width;
+		this.cx=width/2;
+		this.height = height;
+	},
 
 	drawTank: function()
 	{
@@ -62,46 +66,13 @@ KTB.Renderer.prototype = {
 		this.ctx.lineWidth=w*0.4;
 
 		this.drawText(ball.number.toString(),x-ball.radius*0.32,y-ball.radius*0.55,ball.radius*0.3);
-
-		return;
-
-		if (ball.number==1)
-		{
-			this.ctx.beginPath();
-			this.ctx.moveTo(x,y+w);
-			this.ctx.lineTo(x,y-w);
-			this.ctx.lineTo(x-w/2,y-w);
-			this.ctx.stroke();		
-		}
-		if (ball.number==2)
-		{
-			// 2
-			this.ctx.beginPath();
-			this.ctx.moveTo(x+w,y+w);
-			this.ctx.lineTo(x-w,y+w);
-			this.ctx.lineTo(x-w,y);
-			this.ctx.lineTo(x+w,y);
-			this.ctx.lineTo(x+w,y-w);
-			this.ctx.lineTo(x-w,y-w);
-			this.ctx.stroke();		
-		}
-		else if (ball.number==3)
-		{
-			this.ctx.beginPath();
-			this.ctx.moveTo(x-w,y+w);
-			this.ctx.lineTo(x+w,y+w);
-			this.ctx.lineTo(x+w,y-w);
-			this.ctx.lineTo(x-w,y-w);
-			this.ctx.moveTo(x+w,y);
-			this.ctx.lineTo(x-w,y);
-			this.ctx.stroke();		
-		}
 	},
 
 	drawStar: function(x,y,r,p,m)
 	{
 		this.ctx.translate(x,y);
 	    this.ctx.moveTo(0,0-r);
+	    this.ctx.beginPath();
 	    for (var i = 0; i < p; i++)
 		{
 			this.ctx.rotate(Math.PI / p);

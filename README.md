@@ -6,6 +6,11 @@ Javascript version of the 3210 game
 * [Click here](http://kile.stravaganza.org/lab/js/tankball) to play
 * [Click here](http://kile.stravaganza.org/blog/post/time-for-a-quick-hacktlon) to read more about it
 
+
+Firefox OS 
+----------------------
+Tankball is now compatible with Mozilla Firefox OS so you can install it from the market place :)
+
 External code and libraries
 ----------------------
 It includes code from:
