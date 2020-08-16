@@ -3,8 +3,8 @@ Tank Ball
 
 Javascript version of the 3210 game
 
-* [Click here](http://tankball.bitkore.com) to play
-* [Click here](http://kile.stravaganza.org/blog/post/time-for-a-quick-hacktlon) to read more about it
+* [Click here](http://fernandojsg.github.io/tankball/) to play
+* [Click here](https://fernandojsg.com/blog/post/time-for-a-quick-hacktlon) to read more about it
 
 
 Firefox OS 
